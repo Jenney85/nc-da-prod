@@ -1,0 +1,9 @@
+streamlit         # Core app framework
+pandas            # Data handling
+openpyxl          # Excel support (.xlsx)
+altair            # Charts (used in HORPT2 etc.)
+plotly            # Optional charts (e.g. px.bar)
+numpy             # General numeric support
+gspread
+google-auth
+
