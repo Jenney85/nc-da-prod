@@ -108,6 +108,12 @@ if df.empty:
 if role != "admin":
     df = df[df["User email"] == email]
 
+# check if empty
+if df.empty:
+    st.warning("No data found for the selected user.")
+    st.warning("Please log in with a different account from the main page.")
+    st.stop()
+
 # Sidebar filters
 st.sidebar.header("📅 Filter Options")
 start_date = st.sidebar.date_input("Start Date", value=df["Timestamp"].min())
