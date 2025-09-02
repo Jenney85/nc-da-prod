@@ -180,13 +180,34 @@ st.metric("Total Time in Nature: ", f"{hours}h {minutes}m")
 
 # Group by 'Date' and 'Place' and count occurrences
 # if admin -- i think we need to group by email, date, n_place
-grouped_data = filtered.groupby([filtered['Timestamp'].dt.date, 'n_Place']).agg(
-    Count=('n_Place', 'size'),
-    Unique_places=('n_Place', 'unique'),
-    SumMin=('n_Duration', 'sum'),
-    Latitude=('n_Lati', 'mean'),
-    Longitude=('n_Long', 'mean')
-).reset_index().sort_values('SumMin', ascending=False).rename(columns={'Timestamp': 'Date'})
+# grouped_data = filtered.groupby([filtered['Timestamp'].dt.date, 'n_Place']).agg(
+#     Count=('n_Place', 'size'),
+#     Unique_places=('n_Place', 'unique'),
+#     SumMin=('n_Duration', 'sum'),
+#     Latitude=('n_Lati', 'mean'),
+#     Longitude=('n_Long', 'mean')
+# ).reset_index().sort_values('SumMin', ascending=False).rename(columns={'Timestamp': 'Date'})
+
+if role == "admin" and selected_emails:
+    grouped_data = filtered.groupby(
+        ["User email",filtered['Timestamp'].dt.date, 'n_Place']
+        ).agg(
+            Count=('n_Place', 'size'),
+            Unique_places=('n_Place', 'unique'),
+            SumMin=('n_Duration', 'sum'),
+            Latitude=('n_Lati', 'mean'),
+            Longitude=('n_Long', 'mean')
+        ).reset_index().sort_values('SumMin', ascending=False).rename(columns={'Timestamp': 'Date'})
+else:
+    grouped_data = filtered.groupby(
+        [filtered['Timestamp'].dt.date, 'n_Place']
+        ).agg(
+            Count=('n_Place', 'size'),
+            Unique_places=('n_Place', 'unique'),
+            SumMin=('n_Duration', 'sum'),
+            Latitude=('n_Lati', 'mean'),
+            Longitude=('n_Long', 'mean')
+        ).reset_index().sort_values('SumMin', ascending=False).rename(columns={'Timestamp': 'Date'})
 
 # Group by Date and Indicator and aggregate rating
     
