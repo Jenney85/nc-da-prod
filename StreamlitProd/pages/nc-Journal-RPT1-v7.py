@@ -268,26 +268,52 @@ with col3:
   st.plotly_chart(chart2, use_container_width=True)
 
 with col4:
+    # Aggregate purely by place so each slice is a place (no date/user duplication)
+    pie_df = (
+        filtered
+        .groupby('n_Place', as_index=False)
+        .agg(TotalMin=('n_Duration', 'sum'))
+        .sort_values('TotalMin', ascending=False)
+    )
+
+    # Clamp slider selection to available unique places (defensive)
+    top_n_effective = min(top_n, len(pie_df))
+    pie_top = pie_df.head(top_n_effective)
+
+    st.write(f"**Top {top_n_effective} Places by Time Spent**")
+
+    chart4 = px.pie(
+        pie_top,
+        values='TotalMin',
+        names='n_Place'
+    )
+    chart4.update_layout(
+        legend=dict(itemwidth=30, font=dict(size=8))
+    )
+    chart4.update_traces(textinfo='value+percent', textposition='outside', insidetextorientation='radial')
+    st.plotly_chart(chart4, use_container_width=True)    
+
+# original col4 code  
     # Get top N places
     # top_places = grouped_data.sort_values(by='SumMin', ascending=False).head(top_n)
-    display_top_n = grouped_data.nlargest(top_n, "SumMin")
-    st.write(" \n     ")
+    # display_top_n = grouped_data.nlargest(top_n, "SumMin")
+    # st.write(" \n     ")
     # st.write("Content for Row 2, Column 2 TBD")
-    st.write(f"**Top {top_n} Places Visited in Selected Date**")
+    # st.write(f"**Top {top_n} Places Visited in Selected Date**")
     # st.dataframe(top_places)
     # df = pd.DataFrame(top_places)
 
     # Create the pie chart
-    chart4 = px.pie(display_top_n, values='SumMin', names='Unique_places')
+    # chart4 = px.pie(display_top_n, values='SumMin', names='Unique_places')
     # Display the pie chart in Streamlit
-    chart4.update_layout(
-      legend=dict(
-        itemwidth=30,  # Adjust the width of individual legend items
-        font=dict(size=8) # Adjust the font size of legend items
-      )
-    )
-    chart4.update_traces(textinfo='value+percent', textposition='outside', insidetextorientation='radial')
-    st.plotly_chart(chart4, use_container_width=True)
+    # chart4.update_layout(
+    #  legend=dict(
+    #    itemwidth=30,  # Adjust the width of individual legend items
+    #    font=dict(size=8) # Adjust the font size of legend items
+    #  )
+   # )
+   # chart4.update_traces(textinfo='value+percent', textposition='outside', insidetextorientation='radial')
+   # st.plotly_chart(chart4, use_container_width=True)
     # st.write("      ")
     # st.write("Content for Row 2, Column 2 TBD")
 
