@@ -6,10 +6,10 @@ Streamlit app for Nature Counter Health Outcome and Journal reporting.
 ## pages
 - 📊 Health Outcome Reports
 - 📓 Journal Reports
-- 😊 Seamspace Emotion Reports
+#   😊 Seamspace Emotion Reports (Pending; excluded from current version)
 
 ## How to Run
-streamlit run NC-Generic-Login-v1.py
+streamlit run NC-Generic-Loin-v1.py
 Only authorized users can access based on permissions.csv.
 
 
@@ -86,3 +86,4 @@ Main – <br>
              |Intake-data <br>
 
 >>>>>>> 08985fbb44ea5f2aa393ecccfdb8b44f971449cc
+
