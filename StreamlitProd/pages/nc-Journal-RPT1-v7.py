@@ -188,28 +188,33 @@ st.metric("Total Time in Nature: ", f"{hours}h {minutes}m")
 #     Longitude=('n_Long', 'mean')
 # ).reset_index().sort_values('SumMin', ascending=False).rename(columns={'Timestamp': 'Date'})
 
-if role == "admin" and selected_emails:
-    filtered["Date"] = filtered["Timestamp"].dt.date  # make a proper column
+# Make sure Date column exists
+filtered["Date"] = filtered["Timestamp"].dt.date
+
+if role == "admin":
+    # Keep email when admin is looking at multiple users
     grouped_data = filtered.groupby(
-        ["User email", "Date", "n_Place"]
+        ["User email", "Date", "n_Place"], as_index=False
     ).agg(
         Count=('n_Place', 'size'),
         Unique_places=('n_Place', 'nunique'),
         SumMin=('n_Duration', 'sum'),
         Latitude=('n_Lati', 'mean'),
         Longitude=('n_Long', 'mean')
-    ).reset_index().sort_values('SumMin', ascending=False)
+    ).sort_values('SumMin', ascending=False)
+
 else:
-    filtered["Date"] = filtered["Timestamp"].dt.date
+    # Still include User email so it shows up
     grouped_data = filtered.groupby(
-        ["Date", "n_Place"]
+        ["User email", "Date", "n_Place"], as_index=False
     ).agg(
         Count=('n_Place', 'size'),
         Unique_places=('n_Place', 'nunique'),
         SumMin=('n_Duration', 'sum'),
         Latitude=('n_Lati', 'mean'),
         Longitude=('n_Long', 'mean')
-    ).reset_index().sort_values('SumMin', ascending=False)
+    ).sort_values('SumMin', ascending=False)
+
 
 # Group by Date and Indicator and aggregate rating
 st.dataframe(filtered)
