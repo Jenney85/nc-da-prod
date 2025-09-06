@@ -219,7 +219,10 @@ else:
 # Group by Date and Indicator and aggregate rating
 st.dataframe(filtered)
 st.subheader("Aggregated Counts of Nature Places I visited")
-st.dataframe(grouped_data)
+if role == "admin":
+    st.dataframe(grouped_data)
+else:
+    st.dataframe(grouped_data.iloc[:, 1:])
 
 st.subheader(" 📆 RPT1: How much time (in minutes) & where did I spend in Nature?")
 # Create columns
