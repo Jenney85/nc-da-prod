@@ -217,7 +217,6 @@ else:
 
 
 # Group by Date and Indicator and aggregate rating
-st.dataframe(filtered)
 st.subheader("Aggregated Counts of Nature Places I visited")
 if role == "admin":
     st.dataframe(grouped_data)
