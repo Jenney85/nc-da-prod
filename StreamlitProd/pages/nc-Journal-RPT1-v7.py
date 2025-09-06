@@ -212,7 +212,7 @@ else:
     ).reset_index().sort_values('SumMin', ascending=False)
 
 # Group by Date and Indicator and aggregate rating
-    
+st.dataframe(filtered)
 st.subheader("Aggregated Counts of Nature Places I visited")
 st.dataframe(grouped_data)
 
